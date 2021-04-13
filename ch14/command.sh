@@ -45,3 +45,12 @@ docker-compose -f ./numbers/docker-compose.yml -f ./numbers/prod.yml -f \
 docker stack deploy -c stack.yml numbers
 # wait and you'll see it reverts back again:
 docker service inspect --pretty numbers_numbers-api
+
+
+# this is more like it - all the custom config is in the prod-full file:
+docker-compose -f ./numbers/docker-compose.yml -f ./numbers/prod-full.yml \
+        -f ./numbers/v5.yml --log-level ERROR config > stack.yml
+# deploy the working version of v5:
+docker stack deploy -c stack.yml numbers
+# wait a while and check the rollout succeeded:
+docker service inspect --pretty numbers_numbers-api
